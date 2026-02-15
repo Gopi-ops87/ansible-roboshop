@@ -11,7 +11,7 @@
     - name: install redis server
       ansible.builtin.package:
         name: redis
-        status: present
+        state: present
 
     - name: allow remote connections
       ansible.builtin.replace:
@@ -28,5 +28,5 @@
     - name: start redis service
       ansible.builtin.service:
         name: redis
-        status: started
+        state: started
         enabled: yes
