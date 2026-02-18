@@ -15,11 +15,11 @@
 
     - name: creating system user
       ansible.builtin.user:
-      name: roboshop
-      comment: roboshop system user
-      shell: /sbin/nologin
-      home: /app
-      system: true
+        name: roboshop
+        comment: roboshop system user
+        shell: /sbin/nologin
+        home: /app
+        system: true
 
     - name: removeing app directory
       ansible.builtin.file:
@@ -73,7 +73,7 @@
 
     - name: load products into mongodb
       ansible.builtin.shell: mongosh --host mongodb.dev28p.online </app/db/master-data.js
-      when catalogue_output.stdout | int < 0
+      when: catalogue_output.stdout | int < 0
 
     - name: start the service and deamon reload
       ansible.builtin.systemd_service:
