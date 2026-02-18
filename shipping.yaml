@@ -4,7 +4,7 @@
   tasks: 
   - name: installing maven 
     ansible.builtin.dnf:
-      name: {{ item }}
+      name: "{{ item }}"
       state: present
     loop: 
     - maven
@@ -66,7 +66,7 @@
       login_host: mysql.dev28p.online
       login_user: root
       login_password: RoboShop@1
-      target: {{ item }}
+      target: "{{ item }}"
       loop:
       - /app/db/schema.sql
       - /app/db/app-user.sql 
@@ -79,7 +79,7 @@
       enabled: true
       daemon_reload: true
 
-      
+
       
 
 
