@@ -60,7 +60,10 @@
       dest: /etc/systemd/system/shipping.service
 
   - name: install MySQL python dependencies
-    ansible.builtin.command: pip3.9 install PyMySQL   
+    ansible.builtin.command: pip3.9 install PyMySQL
+
+  - name: Install cryptography using pip3.9
+    ansible.builtin.command: pip3.9 install cryptography   
 
   - name: import shipping data into mysql
     community.mysql.mysql_db:
