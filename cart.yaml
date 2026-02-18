@@ -28,6 +28,7 @@
 
     - name: creating app directory
       ansible.builtin.file:
+        state: directory
         path: /app
     
     - name: delete cart files
