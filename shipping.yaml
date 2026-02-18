@@ -1,5 +1,5 @@
 - name: setup of shipping services
-  host: shipping
+  hosts: shipping
   become: yes
   tasks: 
   - name: installing maven 
