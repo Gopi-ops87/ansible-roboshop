@@ -67,10 +67,10 @@
       login_user: root
       login_password: RoboShop@1
       target: "{{ item }}"
-      loop:
-      - /app/db/schema.sql
-      - /app/db/app-user.sql 
-      - /app/db/master-data.sql
+    loop:
+    - /app/db/schema.sql
+    - /app/db/app-user.sql 
+    - /app/db/master-data.sql
     
   - name: starting, enabling, and daemon reload of shipping
     ansible.builtin.systemd_service:
