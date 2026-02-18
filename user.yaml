@@ -23,7 +23,7 @@
 
     - name: creating app directory
       ansible.builtin.file:
-        status: directory
+        state: directory
         path: /app
 
     - name: deleting the user files
