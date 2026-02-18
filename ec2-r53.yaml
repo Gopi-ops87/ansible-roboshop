@@ -6,11 +6,11 @@
     sg_id: sg-00cc66d18f8b21fdf
     zone_id: Z0700843M2YZ13RK7XZQ
     domain_name: "dev28p.online"
-    #instances:
-      #- mongodb
-      #- redis
-      #- mysql
-      #- rabbitmq
+    instances:
+      - mongodb
+      - redis
+      - mysql
+      - rabbitmq
   tasks:
   - name: create ec2 instance
     amazon.aws.ec2_instance:
