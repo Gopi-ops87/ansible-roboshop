@@ -21,16 +21,25 @@
       home: /app
       system: true
 
+    - name: removeing app directory
+      ansible.builtin.file:
+        path: /app
+        state: absent
 
     - name: creating directory
       ansible.builtin.file:
-      state: directory
-      path: /app
+        state: directory
+        path: /app
+
+    - name: deleting the catalogue file
+      ansible.builtin.file:
+        path: /tmp/catalogue.zip
+        state: absent
 
     - name: downloading catalogue Application
       ansible.builtin.get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
-      dest: /tmp/catalogue.zip
+        url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+        dest: /tmp/catalogue.zip
 
     - name: unzipping the catalogue Application
       ansible.builtin.unarchive:
@@ -50,8 +59,8 @@
 
     - name: copying monog repo
       ansible.builtin.copy:
-      src: mongo.repo
-      dest: /etc/yum.repos.d/mongo.repo
+        src: mongo.repo
+        dest: /etc/yum.repos.d/mongo.repo
 
     - name: installing mongodb client
       ansible.builtin.package:
@@ -72,7 +81,7 @@
         state: started
         enabled: true
         daemon_reload: true
-        
+
 
 
 
