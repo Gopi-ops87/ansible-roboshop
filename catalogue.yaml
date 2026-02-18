@@ -1,0 +1,78 @@
+- name: setup catalogue service
+  hosts: catalogue
+  become: yes
+  tasks:
+    - name: disable nodejs
+      ansible.builtin.command: dnf module disable nodejs -y
+    
+    - name: enable nodejs 7
+      ansible.builtin.command: dnf module enable nodejs:20 -y
+
+    - name: install nodejs
+      ansible.builtin.package:
+        name: nodejs
+        state: present
+
+    - name: creating system user
+      ansible.builtin.user:
+      name: roboshop
+      comment: roboshop system user
+      shell: /sbin/nologin
+      home: /app
+      system: true
+
+
+    - name: creating directory
+      ansible.builtin.file:
+      state: directory
+      path: /app
+
+    - name: downloading catalogue Application
+      ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      dest: /tmp/catalogue.zip
+
+    - name: unzipping the catalogue Application
+      ansible.builtin.unarchive:
+        src: /tmp/catalogue.zip
+        dest: /app
+        remote_src: true
+
+    - name: donloading dependencies
+      community.general.npm:
+        path: /app
+
+    - name: copying the catalogue.service
+      ansible.builtin.copy:
+        src: catalogue.service
+        dest: /etc/systemd/system/catalogue.service
+
+
+    - name: copying monog repo
+      ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+    - name: installing mongodb client
+      ansible.builtin.package:
+        name: mongodb-mongosh
+        state: present
+
+    - name: connect to mongodb client
+      ansible.builtin.shell: mongosh mongodb.dev28p.online --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')"
+      register: catalogue_output
+
+    - name: load products into mongodb
+      ansible.builtin.shell: mongosh --host mongodb.dev28p.online </app/db/master-data.js
+      when catalogue_output.stdout | int < 0
+
+    - name: start the service and deamon reload
+      ansible.builtin.systemd_service:
+        name: catalogue
+        state: started
+        enabled: true
+        daemon_reload: true
+        
+
+
+
