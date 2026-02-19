@@ -15,13 +15,13 @@
 
     - name: remove the html directory
       ansible.builtin.file:
-        state: absent
         path: /usr/share/nginx/html/
+        state: absent
 
     - name: creating html directory
       ansible.builtin.file:
-        state: present
         path: /usr/share/nginx/html/
+        state: directory
 
     - name: downloading frontend application
       ansible.builtin.get_url:
